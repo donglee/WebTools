@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>精灵图集工具 - Sprite Atlas Tool</title>
+    <link rel="stylesheet" href="styles.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="header-top">
+                <div class="language-switch">
+                    <button class="lang-btn active" data-lang="zh">中文</button>
+                    <button class="lang-btn" data-lang="en">English</button>
+                </div>
+            </div>
+            <h1 data-i18n="title">🎮 精灵图集工具</h1>
+            <p data-i18n="subtitle">支持n×n正方形图集的打包和分割</p>
+        </header>
+
+        <div class="tool-tabs">
+            <button class="tab-btn active" data-tab="pack" data-i18n="tab_pack">📦 图片打包</button>
+            <button class="tab-btn" data-tab="split" data-i18n="tab_split">✂️ 图集分割</button>
+        </div>
+
+        <!-- 打包工具 -->
+        <div id="pack-tool" class="tool-panel active">
+            <div class="upload-section">
+                <div class="upload-area" id="upload-area">
+                    <div class="upload-content">
+                        <div class="upload-icon">📁</div>
+                        <p data-i18n="drag_images">拖拽图片文件到此处或点击选择</p>
+                        <input type="file" id="file-input" multiple accept="image/*" hidden>
+                        <button class="btn-primary" onclick="document.getElementById('file-input').click()" data-i18n="select_images">选择图片</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="settings-section">
+                <h3 data-i18n="pack_settings">打包设置</h3>
+                <div class="settings-grid">
+                    <div class="setting-item">
+                        <label for="atlas-size" data-i18n="atlas_size">图集大小:</label>
+                        <select id="atlas-size">
+                            <option value="1024">1024×1024</option>
+                            <option value="512">512×512</option>
+                            <option value="2048">2048×2048</option>
+                        </select>
+                    </div>
+                    <div class="setting-item">
+                        <label for="grid-size" data-i18n="grid_size">网格大小 (n×n):</label>
+                        <select id="grid-size">
+                            <option value="2">2×2</option>
+                            <option value="3">3×3</option>
+                            <option value="4" selected>4×4</option>
+                            <option value="5">5×5</option>
+                            <option value="6">6×6</option>
+                            <option value="8">8×8</option>
+                        </select>
+                    </div>
+                    <div class="setting-item">
+                        <label for="center-sprites" data-i18n="center_sprites">子图居中:</label>
+                        <input type="checkbox" id="center-sprites" checked>
+                    </div>
+                    <div class="setting-item">
+                        <label for="padding" data-i18n="padding">间距:</label>
+                        <input type="number" id="padding" value="0" min="0" max="32">
+                        <span>px</span>
+                    </div>
+                </div>
+                <button class="btn-primary" id="pack-btn" disabled data-i18n="generate_atlas">生成图集</button>
+            </div>
+
+            <div class="preview-section" id="pack-preview" style="display: none;">
+                <h3 data-i18n="preview">预览</h3>
+                <div class="preview-container">
+                    <canvas id="pack-canvas"></canvas>
+                </div>
+                <div class="download-section">
+                    <button class="btn-success" id="download-atlas" data-i18n="download_atlas">下载图集</button>
+                    <button class="btn-secondary" id="download-json" data-i18n="download_config">下载配置文件</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- 分割工具 -->
+        <div id="split-tool" class="tool-panel">
+            <div class="upload-section">
+                <div class="upload-area" id="split-upload-area">
+                    <div class="upload-content">
+                        <div class="upload-icon">🖼️</div>
+                        <p data-i18n="drag_atlas">拖拽图集文件到此处或点击选择</p>
+                        <input type="file" id="split-file-input" accept="image/*" hidden>
+                        <button class="btn-primary" onclick="document.getElementById('split-file-input').click()" data-i18n="select_atlas">选择图集</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="settings-section">
+                <h3 data-i18n="split_settings">分割设置</h3>
+                <div class="settings-grid">
+                    <div class="setting-item">
+                        <label for="split-grid-size" data-i18n="grid_size">网格大小 (n×n):</label>
+                        <select id="split-grid-size">
+                            <option value="2">2×2</option>
+                            <option value="3">3×3</option>
+                            <option value="4" selected>4×4</option>
+                            <option value="5">5×5</option>
+                            <option value="6">6×6</option>
+                            <option value="8">8×8</option>
+                        </select>
+                    </div>
+                    <div class="setting-item">
+                        <label for="split-padding" data-i18n="padding">间距:</label>
+                        <input type="number" id="split-padding" value="0" min="0" max="32">
+                        <span>px</span>
+                    </div>
+                </div>
+                <button class="btn-primary" id="split-btn" disabled data-i18n="split_atlas">分割图集</button>
+            </div>
+
+            <div class="preview-section" id="split-preview" style="display: none;">
+                <h3 data-i18n="split_preview">分割预览</h3>
+                <div class="split-grid" id="split-grid"></div>
+                <div class="download-section">
+                    <button class="btn-success" id="download-sprites" data-i18n="download_sprites">下载所有精灵</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="image-list" id="image-list" style="display: none;">
+            <h3 data-i18n="selected_images">已选择的图片</h3>
+            <div class="image-grid" id="image-grid"></div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
