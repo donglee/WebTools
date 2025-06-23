@@ -287,6 +287,9 @@
         const toolFrame = document.getElementById('toolFrame');
         const welcomeMessage = document.getElementById('welcomeMessage');
         let activeItem = null;
+        
+        // 存储每个工具的iframe实例
+        const toolFrames = new Map();
 
         // 生成导航列表
         function generateNavList() {
@@ -323,6 +326,21 @@
             });
         }
 
+        // 创建或获取工具的iframe
+        function getOrCreateToolFrame(tool) {
+            if (!toolFrames.has(tool.name)) {
+                const iframe = document.createElement('iframe');
+                iframe.className = 'iframe-content';
+                iframe.style.display = 'none';
+                iframe.src = tool.path;
+                
+                // 添加到容器中
+                document.querySelector('.iframe-container').appendChild(iframe);
+                toolFrames.set(tool.name, iframe);
+            }
+            return toolFrames.get(tool.name);
+        }
+
         // 加载工具
         function loadTool(tool, navItem) {
             // 更新活动状态
@@ -347,19 +365,19 @@
             // 更新工具标题和图标
             currentTool.innerHTML = `<span style="font-size: 20px;">${tool.icon}</span>${tool.name}`;
 
-            // 隐藏欢迎消息，显示iframe
+            // 隐藏欢迎消息
             welcomeMessage.style.display = 'none';
-            toolFrame.style.display = 'block';
             
-            // 加载工具页面
-            toolFrame.src = tool.path;
+            // 隐藏所有iframe
+            toolFrames.forEach(iframe => {
+                iframe.style.display = 'none';
+            });
+            
+            // 显示当前工具的iframe
+            const currentFrame = getOrCreateToolFrame(tool);
+            currentFrame.style.display = 'block';
         }
 
-        // 初始化页面
-        generateNavList();
-    </script>
-</body>
-</html>
         // 初始化页面
         generateNavList();
     </script>
