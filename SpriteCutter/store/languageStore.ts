@@ -15,6 +15,7 @@ export interface Translations {
   squareCrop: string
   centerCrop: string
   resetCrop: string
+  download: string
   downloadImage: string
   downloadAll: string
   clearAll: string
@@ -24,12 +25,15 @@ export interface Translations {
   uploadMultiple: string
   supportedFormats: string
   fileTypeError: string
+  dropImages: string
+  addImage: string
   
   // Image Gallery
   imageGallery: string
   currentImage: string
   removeImage: string
   noImages: string
+  images: string
 }
 
 const translations: Record<Language, Translations> = {
@@ -44,6 +48,7 @@ const translations: Record<Language, Translations> = {
     squareCrop: '正方形裁剪',
     centerCrop: '居中裁剪',
     resetCrop: '重置裁剪',
+    download: '下载',
     downloadImage: '下载当前图片',
     downloadAll: '下载所有图片',
     clearAll: '清空所有图片',
@@ -52,11 +57,14 @@ const translations: Record<Language, Translations> = {
     uploadMultiple: '支持选择多张图片',
     supportedFormats: '支持 PNG, JPG, GIF 格式',
     fileTypeError: '请选择图片文件',
+    dropImages: '拖拽图片到此处',
+    addImage: '添加图片',
     
     imageGallery: '图片库',
     currentImage: '当前图片',
     removeImage: '删除图片',
-    noImages: '暂无图片，请先上传图片'
+    noImages: '暂无图片，请先上传图片',
+    images: '张图片'
   },
   en: {
     pageTitle: 'Sprite Cutter',
@@ -69,6 +77,7 @@ const translations: Record<Language, Translations> = {
     squareCrop: 'Square Crop',
     centerCrop: 'Center Crop',
     resetCrop: 'Reset Crop',
+    download: 'Download',
     downloadImage: 'Download Current Image',
     downloadAll: 'Download All Images',
     clearAll: 'Clear All Images',
@@ -77,11 +86,14 @@ const translations: Record<Language, Translations> = {
     uploadMultiple: 'Support multiple image selection',
     supportedFormats: 'Supports PNG, JPG, GIF formats',
     fileTypeError: 'Please select an image file',
+    dropImages: 'Drag Images Here',
+    addImage: 'Add Image',
     
     imageGallery: 'Image Gallery',
     currentImage: 'Current Image',
     removeImage: 'Remove Image',
-    noImages: 'No images yet, please upload images first'
+    noImages: 'No images yet, please upload images first',
+    images: 'images'
   }
 }
 

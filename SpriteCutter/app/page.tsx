@@ -3,9 +3,7 @@
 import { useCropStore } from '@/store/cropStore'
 import ImageCropper from '@/components/ImageCropper'
 import ImageGallery from '@/components/ImageGallery'
-import CropArea from '@/components/CropArea'
 import ControlPanel from '@/components/ControlPanel'
-import LanguageSelector from '@/components/LanguageSelector'
 import { useLanguageStore } from '@/store/languageStore'
 import { ScissorsIcon } from '@heroicons/react/24/outline'
 
